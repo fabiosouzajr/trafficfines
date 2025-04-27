@@ -6,10 +6,8 @@ from gcal_integration.integration import CalendarIntegration
 class CalendarTab(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent, padding="10")
-        
         self.calendar_integration = CalendarIntegration()
         self.on_events_created = None  # Callback to notify when events are created
-        
         self.create_widgets()
     
     def create_widgets(self):
@@ -59,12 +57,11 @@ class CalendarTab(ttk.Frame):
         frame = ttk.Frame(parent)
         frame.grid(row=row, column=0, sticky=tk.W+tk.E, padx=20, pady=10)
         parent.columnconfigure(0, weight=1)
-        
+    
         ttk.Label(frame, text=label_text).grid(row=0, column=0, sticky=tk.W, pady=5)
         
         stats_frame = ttk.Frame(frame)
-        stats_frame.grid(row=1, column=0, sticky=tk.W+tk.E)
-        
+        stats_frame.grid(row=1, column=0, sticky=tk.W+tk.E)    
         created_var = tk.StringVar(value="0 created")
         skipped_var = tk.StringVar(value="0 skipped")
         

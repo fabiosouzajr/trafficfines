@@ -7,9 +7,7 @@ from utils.helpers import format_currency
 class FinesTab(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent, padding="10")
-        
         self.fine_model = FineModel()
-        
         self.create_widgets()
         self.refresh_fines_list()
     

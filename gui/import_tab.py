@@ -2,17 +2,14 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import os
-
 from config import DEFAULT_PDF_FOLDER
 from pdf.parser import PDFParser
 
 class ImportTab(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent, padding="10")
-        
         self.pdf_parser = PDFParser()
         self.on_fines_updated = None  # Callback to notify when fines are updated
-        
         self.create_widgets()
     
     def create_widgets(self):

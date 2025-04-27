@@ -1,7 +1,6 @@
 # gui/app.py
 import tkinter as tk
 import tkinter.ttk as ttk
-
 from gui.import_tab import ImportTab
 from gui.fines_tab import FinesTab
 from gui.calendar_tab import CalendarTab
@@ -11,8 +10,7 @@ class TrafficFineApp:
         self.root = root
         self.root.title("Traffic Fine Manager")
         self.root.geometry("800x600")
-        self.root.minsize(700, 500)
-        
+        self.root.minsize(700, 500)        
         self.create_ui()
     
     def create_ui(self):
@@ -28,7 +26,6 @@ class TrafficFineApp:
         self.tab_control.add(self.import_tab, text="Import Fines")
         self.tab_control.add(self.fines_tab, text="View Fines")
         self.tab_control.add(self.calendar_tab, text="Calendar Events")
-        
         self.tab_control.pack(expand=1, fill="both")
         
         # Add menu
