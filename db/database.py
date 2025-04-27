@@ -35,6 +35,11 @@ class DatabaseManager:
             license_plate TEXT,
             driver_id_due_date DATE,
             description TEXT,
+            violation_location TEXT,
+            violation_time TEXT,
+            person_name TEXT,
+            equipment_number TEXT,
+            agent_id TEXT,
             pdf_path TEXT,
             payment_event_created BOOLEAN DEFAULT 0,
             driver_id_event_created BOOLEAN DEFAULT 0

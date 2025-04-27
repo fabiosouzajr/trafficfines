@@ -11,8 +11,9 @@ class FineModel:
             self.db.cursor.execute('''
             INSERT OR REPLACE INTO fines 
             (fine_number, issue_date, due_date, amount, violation_type, 
-             license_plate, driver_id_due_date, description, pdf_path)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+             license_plate, driver_id_due_date, description, violation_location,
+             violation_time, person_name, equipment_number, agent_id, pdf_path)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 fine_data['fine_number'],
                 fine_data['issue_date'],
@@ -22,6 +23,11 @@ class FineModel:
                 fine_data['license_plate'],
                 fine_data['driver_id_due_date'],
                 fine_data['description'],
+                fine_data.get('violation_location'),  
+                fine_data.get('violation_time'),     
+                fine_data.get('person_name'),        
+                fine_data.get('equipment_number'),   
+                fine_data.get('agent_id'),           
                 fine_data['pdf_path']
             ))
             self.db.conn.commit()
@@ -34,7 +40,8 @@ class FineModel:
         """Retrieve all fines from database"""
         self.db.cursor.execute('''
         SELECT fine_number, issue_date, due_date, amount, violation_type, 
-               license_plate, driver_id_due_date, description, pdf_path, 
+               license_plate, driver_id_due_date, description, violation_location,
+               violation_time, person_name, equipment_number, agent_id, pdf_path, 
                payment_event_created, driver_id_event_created
         FROM fines ORDER BY due_date DESC
         ''')
