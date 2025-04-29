@@ -1,6 +1,5 @@
 # pdf/parser.py
 import fitz  # PyMuPDF
-import re
 import os
 import logging
 from icecream import ic
