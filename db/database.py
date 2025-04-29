@@ -27,19 +27,23 @@ class DatabaseManager:
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS fines (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            fine_number TEXT UNIQUE,
-            issue_date DATE,
-            due_date DATE,
-            amount REAL,
-            violation_type TEXT,
-            license_plate TEXT,
-            driver_id_due_date DATE,
-            description TEXT,
-            violation_location TEXT,
-            violation_time TEXT,
-            person_name TEXT,
-            equipment_number TEXT,
-            agent_id TEXT,
+            fine_number TEXT UNIQUE,              -- IDENTIFICAÇÃO DO AUTO DE INFRAÇÃO
+            notification_date DATE,               -- DATA DA NOTIFICAÇÃO DA AUTUAÇÃO
+            defense_due_date DATE,                -- DATA LIMITE PARA INTERPOSIÇÃO DE DEFESA PRÉVIA
+            driver_id_due_date DATE,              -- DATA LIMITE PARA IDENTIFICAÇÃO DO CONDUTOR INFRATOR
+            license_plate TEXT,                   -- PLACA
+            vehicle_model TEXT,                   -- MARCA/MODELO/VERSÃO
+            violation_location TEXT,              -- LOCAL DA INFRAÇÃO
+            violation_date DATE,                  -- DATA
+            violation_time TEXT,                  -- HORA
+            violation_code TEXT,                  -- CÓDIGO DA INFRAÇÃO
+            amount REAL,                          -- VALOR DA MULTA
+            description TEXT,                     -- DESCRIÇÃO DA INFRAÇÃO
+            measured_speed TEXT,                  -- MEDIÇÃO REALIZADA
+            considered_speed TEXT,                -- VALOR CONSIDERADO
+            speed_limit TEXT,                     -- LIMITE REGULAMENTADO
+            owner_name TEXT,                      -- NOME DO PROPRIETÁRIO
+            owner_document TEXT,                  -- CPF/CNPJ
             pdf_path TEXT,
             payment_event_created BOOLEAN DEFAULT 0,
             driver_id_event_created BOOLEAN DEFAULT 0

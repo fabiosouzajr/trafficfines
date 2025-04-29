@@ -10,24 +10,29 @@ class FineModel:
         try:
             self.db.cursor.execute('''
             INSERT OR REPLACE INTO fines 
-            (fine_number, issue_date, due_date, amount, violation_type, 
-             license_plate, driver_id_due_date, description, violation_location,
-             violation_time, person_name, equipment_number, agent_id, pdf_path)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (fine_number, notification_date, defense_due_date, driver_id_due_date,
+             license_plate, vehicle_model, violation_location, violation_date,
+             violation_time, violation_code, amount, description, measured_speed,
+             considered_speed, speed_limit, owner_name, owner_document, pdf_path)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 fine_data['fine_number'],
-                fine_data['issue_date'],
-                fine_data['due_date'],
-                fine_data['amount'],
-                fine_data['violation_type'],
-                fine_data['license_plate'],
+                fine_data['notification_date'],
+                fine_data['defense_due_date'],
                 fine_data['driver_id_due_date'],
+                fine_data['license_plate'],
+                fine_data['vehicle_model'],
+                fine_data['violation_location'],
+                fine_data['violation_date'],
+                fine_data['violation_time'],
+                fine_data['violation_code'],
+                fine_data['amount'],
                 fine_data['description'],
-                fine_data.get('violation_location'),  
-                fine_data.get('violation_time'),     
-                fine_data.get('person_name'),        
-                fine_data.get('equipment_number'),   
-                fine_data.get('agent_id'),           
+                fine_data['measured_speed'],
+                fine_data['considered_speed'],
+                fine_data['speed_limit'],
+                fine_data['owner_name'],
+                fine_data['owner_document'],
                 fine_data['pdf_path']
             ))
             self.db.conn.commit()
@@ -39,20 +44,21 @@ class FineModel:
     def get_all_fines(self):
         """Retrieve all fines from database"""
         self.db.cursor.execute('''
-        SELECT fine_number, issue_date, due_date, amount, violation_type, 
-               license_plate, driver_id_due_date, description, violation_location,
-               violation_time, person_name, equipment_number, agent_id, pdf_path, 
+        SELECT fine_number, notification_date, defense_due_date, driver_id_due_date,
+               license_plate, vehicle_model, violation_location, violation_date,
+               violation_time, violation_code, amount, description, measured_speed,
+               considered_speed, speed_limit, owner_name, owner_document, pdf_path,
                payment_event_created, driver_id_event_created
-        FROM fines ORDER BY due_date DESC
+        FROM fines ORDER BY violation_date DESC
         ''')
         return self.db.cursor.fetchall()
     
     def get_fines_without_payment_events(self):
         """Retrieve fines without payment events"""
         self.db.cursor.execute('''
-        SELECT id, fine_number, due_date, amount
+        SELECT id, fine_number, defense_due_date, amount
         FROM fines 
-        WHERE payment_event_created = 0 AND due_date IS NOT NULL
+        WHERE payment_event_created = 0 AND defense_due_date IS NOT NULL
         ''')
         return self.db.cursor.fetchall()
     
