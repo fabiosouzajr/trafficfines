@@ -1,3 +1,10 @@
+__pycache__/
+db/__pycache__/
+gcal_integration/__pycache__/
+gui/__pycache__/
+pdf/__pycache__/
+utils/__pycache__/
+
 credentials.json
 token.pickle
 app.log
