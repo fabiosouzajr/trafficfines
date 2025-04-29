@@ -1,12 +1,15 @@
 import datetime
 import re
 
-def parse_date(date_str, format='%m/%d/%Y'):
-    """Convert string date to datetime object"""
+import datetime
+import re
+
+def parse_date(date_str):
+    """Convert string date to datetime object, expects dd/mm/yyyy"""
     if not date_str:
         return None
     try:
-        return datetime.datetime.strptime(date_str, format).date()
+        return datetime.datetime.strptime(date_str, '%d/%m/%Y').date()
     except ValueError:
         return None
 
