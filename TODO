@@ -1,0 +1,4 @@
+
+- create function to verify if payment information has been submited for each fine
+- create a table with payment information
+- create another parser function to deal with the standardized payments pdf files

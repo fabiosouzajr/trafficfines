@@ -4,3 +4,27 @@
 2025-04-29 09:53:25,760 [INFO] "GET /?state=kasE6aguevOFaaOnVDObafOiAu9PHB&code=4/0Ab_5qllPNQ-1IoLtcQg--F97vzol_pHUJgR0AkTVcCFXgbf8oJo9DqtCoL3wgvKHlM3sRw&scope=https://www.googleapis.com/auth/calendar HTTP/1.1" 200 65
 2025-04-29 09:53:26,593 [INFO] file_cache is only supported with oauth2client<4.0.0
 2025-04-29 09:55:07,091 [INFO] Application closed
+2025-04-29 09:58:06,421 [INFO] Application started
+2025-04-29 09:58:06,515 [INFO] file_cache is only supported with oauth2client<4.0.0
+2025-04-29 09:58:17,815 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_OSL3F78_213890A6002222947455.pdf
+2025-04-29 09:58:18,090 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_OSL3F78_213890A6002222947455.pdf
+2025-04-29 09:58:18,093 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_PMJ3C99_000100N0012299107684.pdf
+2025-04-29 09:58:18,113 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_PMJ3C99_000100N0012299107684.pdf
+2025-04-29 09:58:18,115 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_PMJ3C99_213890AS009753995541.pdf
+2025-04-29 09:58:18,134 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_PMJ3C99_213890AS009753995541.pdf
+2025-04-29 09:58:18,136 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_PMJ3C99_213890AS010051625541.pdf
+2025-04-29 09:58:18,155 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_PMJ3C99_213890AS010051625541.pdf
+2025-04-29 09:58:18,156 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_POI3E66_213890AS006471247048.pdf
+2025-04-29 09:58:18,180 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_POI3E66_213890AS006471247048.pdf
+2025-04-29 09:58:18,181 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_POI3E66_213890AS011084315550.pdf
+2025-04-29 09:58:18,199 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_POI3E66_213890AS011084315550.pdf
+2025-04-29 09:58:18,200 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_POI3E66_213890AS013183765622.pdf
+2025-04-29 09:58:18,218 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_POI3E66_213890AS013183765622.pdf
+2025-04-29 09:58:18,220 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_RIK2I54_213890AS013731645541.pdf
+2025-04-29 09:58:18,239 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_RIK2I54_213890AS013731645541.pdf
+2025-04-29 09:58:18,241 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_SBS6H02_106100N0002721125002.pdf
+2025-04-29 09:58:18,258 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_SBS6H02_106100N0002721125002.pdf
+2025-04-29 09:58:18,260 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_TIF1F18_213890AS014041615622.pdf
+2025-04-29 09:58:18,278 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_TIF1F18_213890AS014041615622.pdf
+2025-04-29 09:58:18,280 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_TIF1F18_213890M6006049527455.pdf
+2025-04-29 09:58:18,297 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_TIF1F18_213890M6006049527455.pdf
