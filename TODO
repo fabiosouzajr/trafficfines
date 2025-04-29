@@ -1,4 +1,6 @@
 
+
+
 - create function to verify if payment information has been submited for each fine
 - create a table with payment information
 - implement a function to deal with payments pdf files
