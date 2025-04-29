@@ -8,6 +8,9 @@ from pdf.parser import PDFParser
 from utils.helpers import format_currency
 
 class ImportTab(ttk.Frame):
+    # Define required fields for validation here
+    REQUIRED_FIELDS = ['fine_number', 'license_plate', 'amount']  # <-- Change as needed
+
     def __init__(self, parent):
         super().__init__(parent, padding="10")
         
@@ -119,24 +122,26 @@ class ImportTab(ttk.Frame):
             for filename in os.listdir(folder):
                 if filename.lower().endswith('.pdf'):
                     pdf_path = os.path.join(folder, filename)
-                    fine_data = self.pdf_parser.verify_pdf(pdf_path)
-                    
-                    if fine_data and fine_data.get('valid', False):
+                    fine_data = self.pdf_parser.parse_pdf(pdf_path)
+
+                    # Validation: check required fields
+                    missing_fields = [field for field in self.REQUIRED_FIELDS if not fine_data or not fine_data.get(field)]
+                    is_valid = fine_data is not None and not missing_fields
+
+                    if is_valid:
                         self.compatible_files.append(fine_data)
                         self.files_tree.insert("", tk.END, values=(
                             filename,
-                            fine_data['fine_number'],
-                            fine_data['license_plate'],
-                            format_currency(fine_data['amount']),
-                            fine_data['issue_date'],
+                            fine_data.get('fine_number', ''),
+                            fine_data.get('license_plate', ''),
+                            format_currency(fine_data.get('amount', 0)),
+                            fine_data.get('violation_date', ''),
                             "Compatível"
                         ))
                     else:
                         missing = "Campos faltando" if fine_data else "Erro na análise"
-                        if fine_data and 'missing_fields' in fine_data:
-                            missing_fields = ', '.join(fine_data['missing_fields'])
-                            missing = f"Faltando: {missing_fields}"
-                            
+                        if missing_fields:
+                            missing = f"Faltando: {', '.join(missing_fields)}"
                         incompatible_files.append(filename)
                         self.files_tree.insert("", tk.END, values=(
                             filename,
@@ -171,7 +176,6 @@ class ImportTab(ttk.Frame):
         try:
             from db.models import FineModel
             fine_model = FineModel()
-            
             processed_count = 0
             failed_count = 0
             
@@ -229,16 +233,22 @@ class ImportTab(ttk.Frame):
             # Field mappings (Portuguese name to field key)
             field_mapping = {
                 "IDENTIFICAÇÃO DO AUTO DE INFRAÇÃO (Número do AIT)": "fine_number",
-                "DATA": "issue_date",
-                "VALOR DA MULTA": "amount",
-                "PLACA": "license_plate",
+                "DATA DA NOTIFICAÇÃO DA AUTUAÇÃO": "notification_date",
+                "DATA LIMITE PARA INTERPOSIÇÃO DE DEFESA PRÉVIA": "defense_due_date",
                 "DATA LIMITE PARA IDENTIFICAÇÃO DO CONDUTOR INFRATOR": "driver_id_due_date",
-                "DESCRIÇÃO DA INFRAÇÃO": "violation_type",
+                "PLACA": "license_plate",
+                "MARCA/MODELO/VERSÃO": "vehicle_model",
                 "LOCAL DA INFRAÇÃO": "violation_location",
+                "DATA": "violation_date",
                 "HORA": "violation_time",
-                "NOME": "person_name",
-                "NÚMERO DO EQUIPAMENTO OU INSTRUMENTO DE AFERIÇÃO": "equipment_number",
-                "IDENTIFICAÇÃO DO AGENTE OU AUTORIDADE DE TRÂNSITO": "agent_id"
+                "CÓDIGO DA INFRAÇÃO": "violation_code",
+                "VALOR DA MULTA": "amount",
+                "DESCRIÇÃO DA INFRAÇÃO": "description",
+                "MEDIÇÃO REALIZADA": "measured_speed",
+                "VALOR CONSIDERADO": "considered_speed",
+                "LIMITE REGULAMENTADO": "speed_limit",
+                "NOME DO PROPRIETÁRIO": "owner_name",
+                "CPF/CNPJ": "owner_document"
             }
             
             # Display fields in order

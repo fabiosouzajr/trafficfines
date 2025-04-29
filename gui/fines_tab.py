@@ -39,7 +39,7 @@ class FinesTab(ttk.Frame):
         treeview_frame.pack(fill=tk.BOTH, expand=True)
         
         # Define columns
-        columns = ("Fine Number", "Issue Date", "Due Date", "Amount", "License Plate", "Payment Event", "Driver ID Event")
+        columns = ("Fine Number", "Issue Date", "Driver ID Due Date", "Amount", "License Plate", "Payment Event", "Driver ID Event")
         self.tree = ttk.Treeview(treeview_frame, columns=columns, show="headings")
         
         # Define headings
@@ -87,8 +87,8 @@ class FinesTab(ttk.Frame):
         
         for fine in fines:
             fine_number = fine['fine_number']
-            issue_date = fine['issue_date'] if fine['issue_date'] else ""
-            due_date = fine['due_date'] if fine['due_date'] else ""
+            notification_date = fine['notification_date'] if fine['notification_date'] else ""
+            driver_id_due_date = fine['driver_id_due_date'] if fine['driver_id_due_date'] else ""
             amount = format_currency(fine['amount'])
             license_plate = fine['license_plate'] if fine['license_plate'] else ""
             payment_status = "Created" if fine['payment_event_created'] else "Pending"
@@ -106,15 +106,15 @@ class FinesTab(ttk.Frame):
             if search_text:
                 search_fields = [
                     str(fine_number).lower(),
-                    str(issue_date).lower(),
-                    str(due_date).lower(),
+                    str(notification_date).lower(),
+                    str(driver_id_due_date).lower(),
                     str(license_plate).lower()
                 ]
                 if not any(search_text in field for field in search_fields):
                     continue
             
             self.tree.insert("", tk.END, values=(
-                fine_number, issue_date, due_date, amount, 
+                fine_number, notification_date, driver_id_due_date, amount, 
                 license_plate, payment_status, driver_id_status
             ))
     
