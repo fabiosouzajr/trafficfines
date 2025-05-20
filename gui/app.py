@@ -12,6 +12,10 @@ class TrafficFineApp:
         self.root.geometry("800x600")
         self.root.minsize(700, 500)
         
+        # Create shared calendar integration instance
+        from gcal_integration.integration import CalendarIntegration
+        self.calendar_integration = CalendarIntegration()
+        
         # Ensure the window is properly configured
         self.root.update_idletasks()
         
@@ -30,10 +34,10 @@ class TrafficFineApp:
         self.tab_control = ttk.Notebook(main_frame)
         self.tab_control.pack(expand=1, fill="both")
         
-        # Create each tab
+        # Create each tab with shared calendar integration
         self.import_tab = ImportTab(self.tab_control)
-        self.fines_tab = FinesTab(self.tab_control)
-        self.calendar_tab = CalendarTab(self.tab_control)
+        self.fines_tab = FinesTab(self.tab_control, self.calendar_integration)
+        self.calendar_tab = CalendarTab(self.tab_control, self.calendar_integration)
         
         # Add tabs to notebook
         self.tab_control.add(self.import_tab, text="Import Fines")
@@ -46,6 +50,7 @@ class TrafficFineApp:
         # Set up callbacks between tabs
         self.import_tab.on_fines_updated = self.fines_tab.refresh_fines_list
         self.calendar_tab.on_events_created = self.fines_tab.refresh_fines_list
+        self.calendar_tab.on_calendar_changed = self.fines_tab.refresh_fines_list
     
     def create_menu(self):
         menubar = tk.Menu(self.root)
