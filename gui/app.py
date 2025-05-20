@@ -10,12 +10,25 @@ class TrafficFineApp:
         self.root = root
         self.root.title("Traffic Fine Manager")
         self.root.geometry("800x600")
-        self.root.minsize(700, 500)        
+        self.root.minsize(700, 500)
+        
+        # Ensure the window is properly configured
+        self.root.update_idletasks()
+        
+        # Create the UI
         self.create_ui()
+        
+        # Ensure the window is ready to be shown
+        self.root.update()
     
     def create_ui(self):
+        # Create main frame
+        main_frame = ttk.Frame(self.root)
+        main_frame.pack(expand=True, fill="both", padx=5, pady=5)
+        
         # Create tabs
-        self.tab_control = ttk.Notebook(self.root)
+        self.tab_control = ttk.Notebook(main_frame)
+        self.tab_control.pack(expand=1, fill="both")
         
         # Create each tab
         self.import_tab = ImportTab(self.tab_control)
@@ -26,7 +39,6 @@ class TrafficFineApp:
         self.tab_control.add(self.import_tab, text="Import Fines")
         self.tab_control.add(self.fines_tab, text="View Fines")
         self.tab_control.add(self.calendar_tab, text="Calendar Events")
-        self.tab_control.pack(expand=1, fill="both")
         
         # Add menu
         self.create_menu()
