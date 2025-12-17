@@ -10,23 +10,39 @@ class TrafficFineApp:
         self.root = root
         self.root.title("Traffic Fine Manager")
         self.root.geometry("800x600")
-        self.root.minsize(700, 500)        
+        self.root.minsize(700, 500)
+        
+        # Create shared calendar integration instance
+        from gcal_integration.integration import CalendarIntegration
+        self.calendar_integration = CalendarIntegration()
+        
+        # Ensure the window is properly configured
+        self.root.update_idletasks()
+        
+        # Create the UI
         self.create_ui()
+        
+        # Ensure the window is ready to be shown
+        self.root.update()
     
     def create_ui(self):
-        # Create tabs
-        self.tab_control = ttk.Notebook(self.root)
+        # Create main frame
+        main_frame = ttk.Frame(self.root)
+        main_frame.pack(expand=True, fill="both", padx=5, pady=5)
         
-        # Create each tab
+        # Create tabs
+        self.tab_control = ttk.Notebook(main_frame)
+        self.tab_control.pack(expand=1, fill="both")
+        
+        # Create each tab with shared calendar integration
         self.import_tab = ImportTab(self.tab_control)
-        self.fines_tab = FinesTab(self.tab_control)
-        self.calendar_tab = CalendarTab(self.tab_control)
+        self.fines_tab = FinesTab(self.tab_control, self.calendar_integration)
+        self.calendar_tab = CalendarTab(self.tab_control, self.calendar_integration)
         
         # Add tabs to notebook
         self.tab_control.add(self.import_tab, text="Import Fines")
         self.tab_control.add(self.fines_tab, text="View Fines")
         self.tab_control.add(self.calendar_tab, text="Calendar Events")
-        self.tab_control.pack(expand=1, fill="both")
         
         # Add menu
         self.create_menu()
@@ -34,6 +50,7 @@ class TrafficFineApp:
         # Set up callbacks between tabs
         self.import_tab.on_fines_updated = self.fines_tab.refresh_fines_list
         self.calendar_tab.on_events_created = self.fines_tab.refresh_fines_list
+        self.calendar_tab.on_calendar_changed = self.fines_tab.refresh_fines_list
     
     def create_menu(self):
         menubar = tk.Menu(self.root)

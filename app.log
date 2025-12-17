@@ -28,6 +28,7 @@
 2025-04-29 09:58:18,278 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_TIF1F18_213890AS014041615622.pdf
 2025-04-29 09:58:18,280 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_TIF1F18_213890M6006049527455.pdf
 2025-04-29 09:58:18,297 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_TIF1F18_213890M6006049527455.pdf
+<<<<<<< HEAD
 2025-12-17 10:25:36 [ERROR] test_scenarios: Exception: cannot connect to database | Context: operation=db_connect
 2025-12-17 10:25:36 [ERROR] test_scenarios: ValueError: Failed to parse PDF - missing required field: fine_number | Context: pdf_path=sample.pdf
 2025-12-17 10:25:36 [ERROR] test_scenarios: Exception: authentication failed: invalid credentials | Context: operation=calendar_auth
@@ -229,3 +230,52 @@ AttributeError: 'CalendarTab' object has no attribute 'create_events_btn'
 2025-12-17 10:55:58 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
 2025-12-17 10:55:58 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
 2025-12-17 10:56:19 [INFO] trafficfines: Application closed
+=======
+2025-05-20 09:36:36,425 [INFO] Application started
+2025-05-20 09:37:57,079 [INFO] Application started
+2025-05-20 09:37:57,600 [INFO] file_cache is only supported with oauth2client<4.0.0
+2025-05-20 09:38:23,343 [INFO] Application closed
+2025-05-20 09:38:56,029 [INFO] Application started
+2025-05-20 09:38:56,131 [INFO] file_cache is only supported with oauth2client<4.0.0
+2025-05-20 09:54:14,601 [INFO] Application closed
+2025-05-20 09:57:08,229 [INFO] Application started
+2025-05-20 09:58:54,299 [INFO] Application started
+2025-05-20 10:01:46,714 [INFO] Application started
+2025-05-20 10:01:46,837 [INFO] file_cache is only supported with oauth2client<4.0.0
+2025-05-20 10:01:59,570 [ERROR] Application initialization failed due to missing components
+2025-05-20 10:03:16,146 [INFO] Application started
+2025-05-20 10:03:16,280 [INFO] file_cache is only supported with oauth2client<4.0.0
+2025-05-20 10:04:35,722 [ERROR] Application initialization failed due to missing components
+2025-05-20 10:04:40,904 [INFO] Application started
+2025-05-20 10:04:41,035 [INFO] file_cache is only supported with oauth2client<4.0.0
+2025-05-20 10:05:25,774 [INFO] Application closed
+2025-05-20 10:10:24,456 [INFO] Application started
+2025-05-20 10:10:24,577 [INFO] file_cache is only supported with oauth2client<4.0.0
+2025-05-20 10:17:24,650 [INFO] Application closed
+2025-05-20 10:17:48,384 [INFO] Application started
+2025-05-20 10:17:48,498 [INFO] file_cache is only supported with oauth2client<4.0.0
+2025-05-20 10:17:48,517 [INFO] file_cache is only supported with oauth2client<4.0.0
+2025-05-20 10:19:56,130 [INFO] Application closed
+2025-05-20 10:19:58,318 [INFO] Application started
+2025-05-20 10:19:58,436 [INFO] file_cache is only supported with oauth2client<4.0.0
+2025-05-20 10:19:58,453 [INFO] file_cache is only supported with oauth2client<4.0.0
+2025-05-20 10:20:17,771 [INFO] Application closed
+2025-05-20 10:20:38,805 [INFO] Application started
+2025-05-20 10:21:13,193 [INFO] Application closed
+2025-05-20 10:27:33,432 [INFO] Application started
+2025-05-20 10:33:05,225 [INFO] Application closed
+2025-05-20 10:33:08,075 [INFO] Application started
+2025-05-20 10:34:46,787 [INFO] Application closed
+2025-05-20 10:34:50,493 [INFO] Application started
+2025-05-20 10:40:02,599 [INFO] Application closed
+2025-05-20 10:40:04,786 [INFO] Application started
+2025-05-20 10:42:57,751 [INFO] Application closed
+2025-05-20 10:43:00,000 [INFO] Application started
+2025-05-20 10:48:44,744 [INFO] Application closed
+2025-05-20 10:48:48,193 [INFO] Application started
+2025-05-20 10:50:04,063 [INFO] Application closed
+2025-05-20 10:50:06,020 [INFO] Application started
+2025-05-20 10:52:26,178 [INFO] Application closed
+2025-05-20 10:52:29,068 [INFO] Application started
+2025-05-20 10:53:15,579 [INFO] Application closed
+>>>>>>> f903c6b8d85e4f1008cd3c5254cbe44a37bffb7c
