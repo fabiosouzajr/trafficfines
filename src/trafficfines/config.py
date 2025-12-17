@@ -48,7 +48,7 @@ class Config:
         self.TOKEN_FILE = self.PROJECT_ROOT / 'token.pickle'
         
         # PDF scanning configuration
-        self.DEFAULT_PDF_FOLDER = Path(os.path.expanduser('~')) / 'Documents' / 'multas'
+        self.DEFAULT_PDF_FOLDER = self.PROJECT_ROOT / 'multas'
         
         # Logging configuration
         self.LOG_FILE = self.PROJECT_ROOT / 'app.log'
