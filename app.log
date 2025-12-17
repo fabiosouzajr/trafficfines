@@ -28,3 +28,204 @@
 2025-04-29 09:58:18,278 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_TIF1F18_213890AS014041615622.pdf
 2025-04-29 09:58:18,280 [INFO] Parsing PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_TIF1F18_213890M6006049527455.pdf
 2025-04-29 09:58:18,297 [INFO] Successfully parsed PDF: C:/Users/fabiojr/Documents/Python-projects/whatsapp-app/trafficfines/multas/notificacao\notificacaoAutuacao_TIF1F18_213890M6006049527455.pdf
+2025-12-17 10:25:36 [ERROR] test_scenarios: Exception: cannot connect to database | Context: operation=db_connect
+2025-12-17 10:25:36 [ERROR] test_scenarios: ValueError: Failed to parse PDF - missing required field: fine_number | Context: pdf_path=sample.pdf
+2025-12-17 10:25:36 [ERROR] test_scenarios: Exception: authentication failed: invalid credentials | Context: operation=calendar_auth
+2025-12-17 10:25:36 [ERROR] test_scenarios: PermissionError: access denied to file | Context: file=data.db
+2025-12-17 10:25:49 [ERROR] test_scenarios: Exception: cannot connect to database | Context: operation=db_connect
+2025-12-17 10:25:49 [ERROR] test_scenarios: ValueError: Failed to parse PDF - missing required field: fine_number | Context: pdf_path=sample.pdf
+2025-12-17 10:25:49 [ERROR] test_scenarios: Exception: authentication failed: invalid credentials | Context: operation=calendar_auth
+2025-12-17 10:25:49 [ERROR] test_scenarios: PermissionError: access denied to file | Context: file=data.db
+2025-12-17 10:33:39 [INFO] pdf.field_config: Loaded field mappings from C:\Users\Fabiojr\Documents\git\trafficfines\pdf\field_mappings.json
+2025-12-17 10:33:39 [INFO] pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 10:35:58 [INFO] trafficfines: Application started
+2025-12-17 10:35:59 [INFO] pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\Documents\git\trafficfines\pdf\field_mappings.json
+2025-12-17 10:35:59 [INFO] pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 10:35:59 [INFO] db.database: Successfully connected to database: traffic_fines.db
+2025-12-17 10:35:59 [INFO] gcal_integration.integration: Refreshing expired credentials
+2025-12-17 10:36:00 [ERROR] gcal_integration.integration: RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'}) | Context: operation=setup_google_calendar
+Traceback (most recent call last):
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\gcal_integration\integration.py", line 34, in setup_google_calendar
+    creds.refresh(Request())
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\credentials.py", line 409, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\reauth.py", line 366, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-12-17 10:36:00 [CRITICAL] trafficfines: Critical error during application execution: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+Traceback (most recent call last):
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\main.py", line 14, in main
+    app = TrafficFineApp(root)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\gui\app.py", line 14, in __init__
+    self.create_ui()
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\gui\app.py", line 23, in create_ui
+    self.calendar_tab = CalendarTab(self.tab_control)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\gui\calendar_tab.py", line 13, in __init__
+    self.calendar_integration = CalendarIntegration()
+                                ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\gcal_integration\integration.py", line 19, in __init__
+    self.calendar_service = self.setup_google_calendar()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\gcal_integration\integration.py", line 34, in setup_google_calendar
+    creds.refresh(Request())
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\credentials.py", line 409, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\reauth.py", line 366, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-12-17 10:41:21 [INFO] trafficfines: Application started
+2025-12-17 10:41:21 [INFO] trafficfines.pdf.field_config: Loaded field mappings from C:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 10:41:21 [INFO] trafficfines.pdf.field_config: Loaded field mappings from C:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 10:41:21 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 10:41:21 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 10:41:21 [INFO] trafficfines.db.database: Successfully connected to database: C:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:41:21 [INFO] trafficfines.db.database: Successfully connected to database: C:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:41:21 [INFO] trafficfines.gcal_integration.integration: Refreshing expired credentials
+2025-12-17 10:41:21 [INFO] trafficfines.gcal_integration.integration: Refreshing expired credentials
+2025-12-17 10:41:22 [ERROR] trafficfines.gcal_integration.integration: RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'}) | Context: operation=setup_google_calendar
+Traceback (most recent call last):
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gcal_integration\integration.py", line 34, in setup_google_calendar
+    creds.refresh(Request())
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\credentials.py", line 409, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\reauth.py", line 366, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-12-17 10:41:22 [ERROR] trafficfines.gcal_integration.integration: RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'}) | Context: operation=setup_google_calendar
+Traceback (most recent call last):
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gcal_integration\integration.py", line 34, in setup_google_calendar
+    creds.refresh(Request())
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\credentials.py", line 409, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\reauth.py", line 366, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-12-17 10:41:22 [CRITICAL] trafficfines: Critical error during application execution: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+Traceback (most recent call last):
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\main.py", line 15, in main
+    app = TrafficFineApp(root)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gui\app.py", line 14, in __init__
+    self.create_ui()
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gui\app.py", line 23, in create_ui
+    self.calendar_tab = CalendarTab(self.tab_control)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gui\calendar_tab.py", line 13, in __init__
+    self.calendar_integration = CalendarIntegration()
+                                ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gcal_integration\integration.py", line 19, in __init__
+    self.calendar_service = self.setup_google_calendar()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gcal_integration\integration.py", line 34, in setup_google_calendar
+    creds.refresh(Request())
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\credentials.py", line 409, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\reauth.py", line 366, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-12-17 10:52:08 [INFO] trafficfines: Application started
+2025-12-17 10:52:08 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 10:52:08 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 10:52:08 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 10:52:08 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 10:52:08 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:52:08 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:52:08 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:52:08 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:52:08 [INFO] trafficfines.gcal_integration.integration: Refreshing expired credentials
+2025-12-17 10:52:08 [INFO] trafficfines.gcal_integration.integration: Refreshing expired credentials
+2025-12-17 10:52:09 [ERROR] trafficfines.gcal_integration.integration: RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'}) | Context: operation=setup_google_calendar
+Traceback (most recent call last):
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gcal_integration\integration.py", line 41, in setup_google_calendar
+    creds.refresh(Request())
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\credentials.py", line 409, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\reauth.py", line 366, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-12-17 10:52:09 [ERROR] trafficfines.gcal_integration.integration: RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'}) | Context: operation=setup_google_calendar
+Traceback (most recent call last):
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gcal_integration\integration.py", line 41, in setup_google_calendar
+    creds.refresh(Request())
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\credentials.py", line 409, in refresh
+    ) = reauth.refresh_grant(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\reauth.py", line 366, in refresh_grant
+    _client._handle_error_response(response_data, retryable_error)
+  File "C:\Users\Fabiojr\Documents\git\trafficfines\venv\Lib\site-packages\google\oauth2\_client.py", line 69, in _handle_error_response
+    raise exceptions.RefreshError(
+google.auth.exceptions.RefreshError: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-12-17 10:52:09 [WARNING] trafficfines.gcal_integration.integration: Could not initialize Google Calendar service: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-12-17 10:52:09 [WARNING] trafficfines.gcal_integration.integration: Could not initialize Google Calendar service: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'})
+2025-12-17 10:52:09 [INFO] trafficfines.gcal_integration.integration: Calendar features will be disabled. You can re-authenticate later.
+2025-12-17 10:52:09 [INFO] trafficfines.gcal_integration.integration: Calendar features will be disabled. You can re-authenticate later.
+2025-12-17 10:52:21 [INFO] trafficfines: Application closed
+2025-12-17 10:54:12 [INFO] trafficfines: Application started
+2025-12-17 10:54:12 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 10:54:12 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 10:54:12 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 10:54:12 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 10:54:12 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:54:12 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:54:12 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:54:12 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:54:12 [INFO] trafficfines.gcal_integration.integration: Refreshing expired credentials
+2025-12-17 10:54:12 [INFO] trafficfines.gcal_integration.integration: Refreshing expired credentials
+2025-12-17 10:54:13 [WARNING] trafficfines.gcal_integration.integration: Failed to refresh credentials: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'}). Starting new OAuth flow.
+2025-12-17 10:54:13 [WARNING] trafficfines.gcal_integration.integration: Failed to refresh credentials: ('invalid_grant: Bad Request', {'error': 'invalid_grant', 'error_description': 'Bad Request'}). Starting new OAuth flow.
+2025-12-17 10:54:13 [INFO] trafficfines.gcal_integration.integration: Starting OAuth flow for new credentials
+2025-12-17 10:54:13 [INFO] trafficfines.gcal_integration.integration: Starting OAuth flow for new credentials
+2025-12-17 10:54:46 [INFO] trafficfines.gcal_integration.integration: Saving credentials to token file
+2025-12-17 10:54:46 [INFO] trafficfines.gcal_integration.integration: Saving credentials to token file
+2025-12-17 10:54:46 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
+2025-12-17 10:54:46 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
+2025-12-17 10:54:46 [CRITICAL] trafficfines: Critical error during application execution: 'CalendarTab' object has no attribute 'create_events_btn'
+Traceback (most recent call last):
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\main.py", line 15, in main
+    app = TrafficFineApp(root)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gui\app.py", line 14, in __init__
+    self.create_ui()
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gui\app.py", line 23, in create_ui
+    self.calendar_tab = CalendarTab(self.tab_control)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gui\calendar_tab.py", line 15, in __init__
+    self.create_widgets()
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gui\calendar_tab.py", line 62, in create_widgets
+    self.update_auth_button_state()
+  File "c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\gui\calendar_tab.py", line 167, in update_auth_button_state
+    self.create_events_btn.config(state=tk.NORMAL)
+    ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CalendarTab' object has no attribute 'create_events_btn'
+2025-12-17 10:55:58 [INFO] trafficfines: Application started
+2025-12-17 10:55:58 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 10:55:58 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\Documents\git\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 10:55:58 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 10:55:58 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 10:55:58 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:55:58 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:55:58 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:55:58 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\Documents\git\trafficfines\traffic_fines.db
+2025-12-17 10:55:58 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
+2025-12-17 10:55:58 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
+2025-12-17 10:56:19 [INFO] trafficfines: Application closed
