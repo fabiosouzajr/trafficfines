@@ -50,6 +50,15 @@ class CalendarTab(ttk.Frame):
         auth_frame = ttk.LabelFrame(main_frame, text="Authentication Status")
         auth_frame.pack(fill=tk.X, padx=20, pady=10)
         
+        # Initialize user email var and label before calling update_auth_status
+        self.user_email_var = tk.StringVar()
+        self.user_email_label = ttk.Label(
+            auth_frame,
+            textvariable=self.user_email_var,
+            font=("Arial", 9),
+            foreground="gray"
+        )
+        
         # Authentication status label
         self.auth_status_var = tk.StringVar()
         self.update_auth_status()
@@ -59,6 +68,10 @@ class CalendarTab(ttk.Frame):
             font=("Arial", 10)
         )
         auth_status_label.pack(pady=10, padx=10)
+        
+        # Pack user email label (initially may be hidden)
+        self.user_email_label.pack(pady=(0, 5), padx=10)
+        self.update_user_email()
         
         # Re-authenticate button
         self.reauth_btn = ttk.Button(
@@ -201,12 +214,32 @@ class CalendarTab(ttk.Frame):
         status['created_var'].set(created_text)
         status['skipped_var'].set(skipped_text)
     
+    def update_user_email(self):
+        """Update the displayed user email"""
+        # Check if label exists (may not be created yet during initialization)
+        if not hasattr(self, 'user_email_label'):
+            return
+            
+        if self.calendar_integration.is_authenticated():
+            email = self.calendar_integration.get_user_email()
+            if email:
+                self.user_email_var.set(f"Connected as: {email}")
+                self.user_email_label.pack(pady=(0, 5), padx=10)
+            else:
+                self.user_email_var.set("")
+                self.user_email_label.pack_forget()
+        else:
+            self.user_email_var.set("")
+            self.user_email_label.pack_forget()
+    
     def update_auth_status(self):
         """Update authentication status display"""
         if self.calendar_integration.is_authenticated():
             self.auth_status_var.set("✓ Authenticated - Calendar features are available")
         else:
             self.auth_status_var.set("✗ Not authenticated - Please re-authenticate to use calendar features")
+        # Also update email when auth status changes
+        self.update_user_email()
     
     def update_auth_button_state(self):
         """Update the state of authentication-related buttons"""
@@ -242,6 +275,7 @@ class CalendarTab(ttk.Frame):
                 # Update UI
                 self.update_auth_status()
                 self.update_auth_button_state()
+                self.update_user_email()  # Update email after re-authentication
             else:
                 messagebox.showerror(
                     "Authentication Failed",

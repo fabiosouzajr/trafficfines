@@ -271,3 +271,24 @@ class CalendarIntegration:
         except Exception as e:
             logger.error(ErrorMessageMapper.get_log_message(e, {'operation': 'create_calendar_events'}), exc_info=True)
             raise
+
+    def get_user_email(self):
+        """
+        Get the email address of the authenticated user.
+        
+        Returns:
+            User's email address as string, or None if not authenticated or error occurs
+        """
+        if self.calendar_service is None:
+            return None
+        
+        try:
+            # Get the primary calendar which contains the owner's email
+            calendar = self.calendar_service.calendars().get(calendarId='primary').execute()
+            return calendar.get('id')  # The calendar ID for primary is the user's email
+        except HttpError as e:
+            logger.error(f"Failed to get user email: {e}", exc_info=True)
+            return None
+        except Exception as e:
+            logger.error(f"Error getting user email: {e}", exc_info=True)
+            return None
