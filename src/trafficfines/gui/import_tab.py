@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import os
+import threading
 
 from trafficfines.config import DEFAULT_PDF_FOLDER
 from trafficfines.pdf.parser import PDFParser
@@ -22,8 +23,17 @@ class ImportTab(ttk.Frame):
         self.pdf_parser = PDFParser()
         self.on_fines_updated = None  # Callback to notify when fines are updated
         self.compatible_files = []  # List to store compatible files
+        # Get root window reference
+        self.root = self._get_root()
         
         self.create_widgets()
+    
+    def _get_root(self):
+        """Get the root Tk window"""
+        widget = self
+        while widget.master:
+            widget = widget.master
+        return widget
     
     def create_widgets(self):
         ttk.Label(self, text="Selecione a pasta contendo os PDFs de multas de trânsito:").grid(row=0, column=0, sticky=tk.W, pady=10)
@@ -45,17 +55,29 @@ class ImportTab(ttk.Frame):
         self.process_btn.grid(row=2, column=1, pady=20)
         self.process_btn.grid_remove()  # Hide initially
         
+        # Progress indicator frame (initially hidden)
+        self.progress_frame = ttk.Frame(self)
+        self.progress_frame.grid(row=3, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=10)
+        
+        self.progress_label = ttk.Label(self.progress_frame, text="")
+        self.progress_label.pack(pady=5)
+        
+        self.progress_bar = ttk.Progressbar(self.progress_frame, mode='determinate', length=400)
+        self.progress_bar.pack(pady=5, fill=tk.X, expand=True)
+        
+        self.progress_frame.grid_remove()  # Hide initially
+        
         # Results area
         self.result_label = ttk.Label(self, text="")
-        self.result_label.grid(row=3, column=0, columnspan=2, pady=10)
+        self.result_label.grid(row=4, column=0, columnspan=2, pady=10)
         
         # Results list
         self.result_frame = ttk.LabelFrame(self, text="Arquivos Compatíveis")
-        self.result_frame.grid(row=4, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), pady=10)
+        self.result_frame.grid(row=5, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), pady=10)
         
         # Make the frame expandable
         self.columnconfigure(0, weight=1)
-        self.rowconfigure(4, weight=1)
+        self.rowconfigure(5, weight=1)
         
         # Create treeview for files
         columns = ("Arquivo", "Auto de Infração", "Placa", "Valor", "Data", "Status")
@@ -115,18 +137,42 @@ class ImportTab(ttk.Frame):
         """Scan folder and verify PDF files for required fields"""
         folder = self.folder_path.get()
         
-        try:
-            # Clear previous results
-            for item in self.files_tree.get_children():
-                self.files_tree.delete(item)
-            
-            self.compatible_files = []
-            incompatible_files = []
-            
-            # Check each PDF file
-            for filename in os.listdir(folder):
-                if filename.lower().endswith('.pdf'):
+        # Disable buttons during scan
+        self.process_btn.config(state=tk.DISABLED)
+        
+        # Clear previous results
+        for item in self.files_tree.get_children():
+            self.files_tree.delete(item)
+        
+        # Get list of PDF files first
+        pdf_files = [f for f in os.listdir(folder) if f.lower().endswith('.pdf')]
+        
+        if not pdf_files:
+            messagebox.showinfo("Informação", "Nenhum arquivo PDF encontrado na pasta selecionada.")
+            self.process_btn.config(state=tk.NORMAL)
+            return
+        
+        # Show progress indicator
+        self.progress_frame.grid()
+        self.progress_bar['maximum'] = len(pdf_files)
+        self.progress_bar['value'] = 0
+        self.progress_label.config(text="Iniciando verificação...")
+        self.result_label.config(text="")
+        self.update_idletasks()
+        
+        # Run scan in separate thread to prevent UI freezing
+        def scan_thread():
+            try:
+                self.compatible_files = []
+                incompatible_files = []
+                
+                # Check each PDF file
+                for i, filename in enumerate(pdf_files):
                     pdf_path = os.path.join(folder, filename)
+                    
+                    # Update progress
+                    self.root.after(0, lambda i=i, total=len(pdf_files), name=filename: self._update_scan_progress(i + 1, total, name))
+                    
                     fine_data = self.pdf_parser.parse_pdf(pdf_path)
 
                     # Validation: check required fields
@@ -135,44 +181,73 @@ class ImportTab(ttk.Frame):
 
                     if is_valid:
                         self.compatible_files.append(fine_data)
-                        self.files_tree.insert("", tk.END, values=(
-                            filename,
-                            fine_data.get('fine_number', ''),
-                            fine_data.get('license_plate', ''),
-                            format_currency(fine_data.get('amount', 0)),
-                            fine_data.get('violation_date', ''),
-                            "Compatível"
-                        ))
+                        self.root.after(0, lambda f=filename, d=fine_data: self._add_file_to_tree(f, d, "Compatível"))
                     else:
                         missing = "Campos faltando" if fine_data else "Erro na análise"
                         if missing_fields:
                             missing = f"Faltando: {', '.join(missing_fields)}"
                         incompatible_files.append(filename)
-                        self.files_tree.insert("", tk.END, values=(
-                            filename,
-                            "N/A",
-                            "N/A",
-                            "N/A",
-                            "N/A",
-                            missing
-                        ))
-            
+                        self.root.after(0, lambda f=filename, m=missing: self._add_file_to_tree(f, None, m))
+                
+                # Update UI on main thread
+                self.root.after(0, lambda: self._finish_scan(len(self.compatible_files), len(incompatible_files)))
+                
+            except Exception as e:
+                logger.error(f"Error during folder scan: {e}", exc_info=True)
+                user_message = ErrorMessageMapper.format_error_for_user(e, {'operation': 'folder_scan', 'folder': folder})
+                self.root.after(0, lambda: messagebox.showerror("Erro", user_message))
+                self.root.after(0, lambda: self._finish_scan(0, 0, error=True))
+        
+        thread = threading.Thread(target=scan_thread, daemon=True)
+        thread.start()
+    
+    def _update_scan_progress(self, current, total, filename):
+        """Update progress bar and label"""
+        self.progress_bar['value'] = current
+        self.progress_label.config(text=f"Verificando: {filename} ({current}/{total})")
+        self.update_idletasks()
+    
+    def _add_file_to_tree(self, filename, fine_data, status):
+        """Add file to treeview"""
+        if fine_data:
+            self.files_tree.insert("", tk.END, values=(
+                filename,
+                fine_data.get('fine_number', ''),
+                fine_data.get('license_plate', ''),
+                format_currency(fine_data.get('amount', 0)),
+                fine_data.get('violation_date', ''),
+                status
+            ))
+        else:
+            self.files_tree.insert("", tk.END, values=(
+                filename,
+                "N/A",
+                "N/A",
+                "N/A",
+                "N/A",
+                status
+            ))
+    
+    def _finish_scan(self, compatible_count, incompatible_count, error=False):
+        """Finish scan and update UI"""
+        # Hide progress indicator
+        self.progress_frame.grid_remove()
+        
+        if not error:
             # Update result summary
-            total_files = len(self.compatible_files) + len(incompatible_files)
+            total_files = compatible_count + incompatible_count
             self.result_label.config(
-                text=f"Encontrados {len(self.compatible_files)} arquivos compatíveis de um total de {total_files} PDFs."
+                text=f"Encontrados {compatible_count} arquivos compatíveis de um total de {total_files} PDFs."
             )
             
             # Show process button if compatible files were found
             if self.compatible_files:
                 self.process_btn.grid()
+                self.process_btn.config(state=tk.NORMAL)
             else:
                 self.process_btn.grid_remove()
-                
-        except Exception as e:
-            logger.error(f"Error during folder scan: {e}", exc_info=True)
-            user_message = ErrorMessageMapper.format_error_for_user(e, {'operation': 'folder_scan', 'folder': folder})
-            messagebox.showerror("Erro", user_message)
+        else:
+            self.process_btn.config(state=tk.NORMAL)
     
     def process_files(self):
         """Process the compatible files and save them to database"""
@@ -180,18 +255,57 @@ class ImportTab(ttk.Frame):
             messagebox.showinfo("Informação", "Não há arquivos compatíveis para processar.")
             return
         
-        try:
-            from db.models import FineModel
-            fine_model = FineModel()
-            processed_count = 0
-            failed_count = 0
-            
-            for fine_data in self.compatible_files:
-                if fine_model.save_fine(fine_data):
-                    processed_count += 1
-                else:
-                    failed_count += 1
-            
+        # Disable process button
+        self.process_btn.config(state=tk.DISABLED)
+        
+        # Show progress indicator
+        self.progress_frame.grid()
+        self.progress_bar['maximum'] = len(self.compatible_files)
+        self.progress_bar['value'] = 0
+        self.progress_label.config(text="Processando arquivos...")
+        self.update_idletasks()
+        
+        # Run processing in separate thread to prevent UI freezing
+        def process_thread():
+            try:
+                from trafficfines.db.models import FineModel
+                fine_model = FineModel()
+                processed_count = 0
+                failed_count = 0
+                
+                for i, fine_data in enumerate(self.compatible_files):
+                    # Update progress
+                    self.root.after(0, lambda i=i, total=len(self.compatible_files): self._update_process_progress(i + 1, total))
+                    
+                    if fine_model.save_fine(fine_data):
+                        processed_count += 1
+                    else:
+                        failed_count += 1
+                
+                # Update UI on main thread
+                self.root.after(0, lambda: self._finish_processing(processed_count, failed_count))
+                
+            except Exception as e:
+                logger.error(f"Error during file processing: {e}", exc_info=True)
+                user_message = ErrorMessageMapper.format_error_for_user(e, {'operation': 'file_processing'})
+                self.root.after(0, lambda: messagebox.showerror("Erro", user_message))
+                self.root.after(0, lambda: self._finish_processing(0, 0, error=True))
+        
+        thread = threading.Thread(target=process_thread, daemon=True)
+        thread.start()
+    
+    def _update_process_progress(self, current, total):
+        """Update progress bar and label"""
+        self.progress_bar['value'] = current
+        self.progress_label.config(text=f"Processando arquivo {current}/{total}...")
+        self.update_idletasks()
+    
+    def _finish_processing(self, processed_count, failed_count, error=False):
+        """Finish processing and update UI"""
+        # Hide progress indicator
+        self.progress_frame.grid_remove()
+        
+        if not error:
             # Show results
             if failed_count == 0:
                 messagebox.showinfo("Sucesso", f"Processados com sucesso todos os {processed_count} arquivos.")
@@ -205,11 +319,8 @@ class ImportTab(ttk.Frame):
             # Notify other components that fines have been updated
             if self.on_fines_updated:
                 self.on_fines_updated()
-                
-        except Exception as e:
-            logger.error(f"Error during file processing: {e}", exc_info=True)
-            user_message = ErrorMessageMapper.format_error_for_user(e, {'operation': 'file_processing'})
-            messagebox.showerror("Erro", user_message)
+        else:
+            self.process_btn.config(state=tk.NORMAL)
     
     def show_file_details(self, event):
         """Show details of the selected file"""

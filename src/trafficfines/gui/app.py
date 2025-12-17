@@ -12,6 +12,9 @@ class TrafficFineApp:
         self.root.geometry("800x600")
         self.root.minsize(700, 500)
         
+        # Apply 'clam' theme for modern appearance
+        self.setup_theme()
+        
         # Create shared calendar integration instance
         from trafficfines.gcal_integration.integration import CalendarIntegration
         self.calendar_integration = CalendarIntegration()
@@ -24,6 +27,15 @@ class TrafficFineApp:
         
         # Ensure the window is ready to be shown
         self.root.update()
+    
+    def setup_theme(self):
+        """Apply the 'clam' theme to all ttk widgets"""
+        style = ttk.Style()
+        try:
+            style.theme_use('clam')
+        except Exception:
+            # Fallback to default if theme not available
+            pass
     
     def create_ui(self):
         # Create main frame

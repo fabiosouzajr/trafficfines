@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import threading
 from trafficfines.gcal_integration.integration import CalendarIntegration
 from trafficfines.utils.logger import get_logger
 from trafficfines.utils.error_messages import ErrorMessageMapper
@@ -13,7 +14,16 @@ class CalendarTab(ttk.Frame):
         super().__init__(parent, padding="10")
         self.calendar_integration = calendar_integration or CalendarIntegration()
         self.on_events_created = None  # Callback to notify when events are created
+        # Get root window reference
+        self.root = self._get_root()
         self.create_widgets()
+    
+    def _get_root(self):
+        """Get the root Tk window"""
+        widget = self
+        while widget.master:
+            widget = widget.master
+        return widget
     
     def create_widgets(self):
         # Main frame
@@ -69,6 +79,18 @@ class CalendarTab(ttk.Frame):
         )
         self.create_events_btn.pack(pady=10)
         
+        # Progress indicator for event creation (initially hidden)
+        self.progress_frame = ttk.Frame(main_frame)
+        self.progress_frame.pack(pady=10, fill=tk.X, padx=20)
+        
+        self.progress_label = ttk.Label(self.progress_frame, text="")
+        self.progress_label.pack(pady=5)
+        
+        self.progress_bar = ttk.Progressbar(self.progress_frame, mode='indeterminate', length=400)
+        self.progress_bar.pack(pady=5, fill=tk.X, expand=True)
+        
+        self.progress_frame.pack_forget()  # Hide initially
+        
         # Update button state based on auth status (after all widgets are created)
         self.update_auth_button_state()
         
@@ -107,14 +129,44 @@ class CalendarTab(ttk.Frame):
     
     def create_events(self):
         """Create calendar events for all pending fines"""
-        try:
-            # Show processing indicator
-            self.update_status("Processing...", "Processing...")
-            self.update_idletasks()
-            
-            # Create events
-            results = self.calendar_integration.create_calendar_events()
-            
+        # Disable button during processing
+        self.create_events_btn.config(state=tk.DISABLED)
+        
+        # Show progress indicator
+        self.progress_frame.pack(pady=10, fill=tk.X, padx=20)
+        self.progress_label.config(text="Creating calendar events...")
+        self.progress_bar.start()
+        self.update_status("Processing...", "Processing...")
+        self.update_idletasks()
+        
+        # Run event creation in separate thread to prevent UI freezing
+        def create_events_thread():
+            try:
+                # Create events
+                results = self.calendar_integration.create_calendar_events()
+                
+                # Update UI on main thread
+                self.root.after(0, lambda: self._finish_event_creation(results))
+                
+            except Exception as e:
+                logger.error(f"Failed to create calendar events: {e}", exc_info=True)
+                user_message = ErrorMessageMapper.format_error_for_user(e, {'operation': 'create_calendar_events'})
+                self.root.after(0, lambda: messagebox.showerror("Erro", user_message))
+                self.root.after(0, lambda: self._finish_event_creation(None, error=True))
+        
+        thread = threading.Thread(target=create_events_thread, daemon=True)
+        thread.start()
+    
+    def _finish_event_creation(self, results, error=False):
+        """Finish event creation and update UI"""
+        # Stop and hide progress indicator
+        self.progress_bar.stop()
+        self.progress_frame.pack_forget()
+        
+        # Re-enable button
+        self.create_events_btn.config(state=tk.NORMAL if self.calendar_integration.is_authenticated() else tk.DISABLED)
+        
+        if not error and results:
             # Update status indicators
             self.update_status(
                 f"{results['payment_events']['created']} created",
@@ -142,11 +194,6 @@ class CalendarTab(ttk.Frame):
             # Notify listeners
             if self.on_events_created:
                 self.on_events_created()
-                
-        except Exception as e:
-            logger.error(f"Failed to create calendar events: {e}", exc_info=True)
-            user_message = ErrorMessageMapper.format_error_for_user(e, {'operation': 'create_calendar_events'})
-            messagebox.showerror("Erro", user_message)
     
     def update_status(self, created_text, skipped_text, is_payment=True):
         """Update status indicators"""
