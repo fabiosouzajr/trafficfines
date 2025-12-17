@@ -1,13 +1,21 @@
 # gui/fines_tab.py
 import tkinter as tk
+<<<<<<< HEAD:src/trafficfines/gui/fines_tab.py
 from tkinter import ttk
 from trafficfines.db.models import FineModel
 from trafficfines.utils.helpers import format_currency
+=======
+from tkinter import ttk, messagebox
+from db.models import FineModel
+from utils.helpers import format_currency
+from gcal_integration.integration import CalendarIntegration
+>>>>>>> f903c6b8d85e4f1008cd3c5254cbe44a37bffb7c:gui/fines_tab.py
 
 class FinesTab(ttk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, calendar_integration=None):
         super().__init__(parent, padding="10")
         self.fine_model = FineModel()
+        self.calendar_integration = calendar_integration or CalendarIntegration()
         self.create_widgets()
         self.refresh_fines_list()
     
@@ -15,6 +23,13 @@ class FinesTab(ttk.Frame):
         # Create filter frame
         filter_frame = ttk.Frame(self)
         filter_frame.pack(fill=tk.X, pady=(0, 10))
+        
+        # Calendar info frame
+        calendar_frame = ttk.LabelFrame(filter_frame, text="Calendar Information")
+        calendar_frame.pack(side=tk.RIGHT, padx=10)
+        
+        self.calendar_label = ttk.Label(calendar_frame, text="Current Calendar: Loading...")
+        self.calendar_label.pack(padx=5, pady=5)
         
         ttk.Label(filter_frame, text="Filter:").pack(side=tk.LEFT, padx=(0, 5))
         
@@ -74,49 +89,88 @@ class FinesTab(ttk.Frame):
     
     def refresh_fines_list(self):
         """Refresh the fines list with optional filtering and searching"""
-        # Clear current items
-        for item in self.tree.get_children():
-            self.tree.delete(item)
-        
-        # Load fines from database
-        fines = self.fine_model.get_all_fines()
-        
-        # Apply filter
-        filter_value = self.filter_var.get()
-        search_text = self.search_var.get().lower()
-        
-        for fine in fines:
-            fine_number = fine['fine_number']
-            notification_date = fine['notification_date'] if fine['notification_date'] else ""
-            driver_id_due_date = fine['driver_id_due_date'] if fine['driver_id_due_date'] else ""
-            amount = format_currency(fine['amount'])
-            license_plate = fine['license_plate'] if fine['license_plate'] else ""
-            payment_status = "Created" if fine['payment_event_created'] else "Pending"
-            driver_id_status = "Created" if fine['driver_id_event_created'] else "Pending"
+        try:
+            # Update calendar display
+            if not self.calendar_integration.calendar_service:
+                self.calendar_label.config(text="Current Calendar: Not connected to Google Calendar")
+                messagebox.showwarning("Calendar Connection", 
+                    "Not connected to Google Calendar. Please check your credentials and try again.")
+                return
+                
+            selected_calendar = self.calendar_integration.get_selected_calendar()
+            calendar_name = self.calendar_integration.get_calendar_name(selected_calendar)
+            self.calendar_label.config(text=f"Current Calendar: {calendar_name}")
+            
+            # Verify calendar events first
+            verification_results = self.calendar_integration.verify_calendar_events()
+            
+            if verification_results:
+                # Show verification results if there were changes
+                if (verification_results['payment_events']['found'] > 0 or 
+                    verification_results['payment_events']['missing'] > 0 or
+                    verification_results['driver_id_events']['found'] > 0 or
+                    verification_results['driver_id_events']['missing'] > 0):
+                    
+                    message = "Calendar events verification results:\n\n"
+                    if verification_results['payment_events']['found'] > 0:
+                        message += f"Found {verification_results['payment_events']['found']} existing payment events\n"
+                    if verification_results['payment_events']['missing'] > 0:
+                        message += f"Missing {verification_results['payment_events']['missing']} payment events\n"
+                    if verification_results['driver_id_events']['found'] > 0:
+                        message += f"Found {verification_results['driver_id_events']['found']} existing driver ID events\n"
+                    if verification_results['driver_id_events']['missing'] > 0:
+                        message += f"Missing {verification_results['driver_id_events']['missing']} driver ID events"
+                    
+                    messagebox.showinfo("Calendar Events Verification", message)
+            
+            # Clear current items
+            for item in self.tree.get_children():
+                self.tree.delete(item)
+            
+            # Load fines from database
+            fines = self.fine_model.get_all_fines()
             
             # Apply filter
-            if filter_value == "Pending Payment" and fine['payment_event_created']:
-                continue
-            elif filter_value == "Pending Driver ID" and fine['driver_id_event_created']:
-                continue
-            elif filter_value == "Complete" and (not fine['payment_event_created'] or not fine['driver_id_event_created']):
-                continue
+            filter_value = self.filter_var.get()
+            search_text = self.search_var.get().lower()
             
-            # Apply search
-            if search_text:
-                search_fields = [
-                    str(fine_number).lower(),
-                    str(notification_date).lower(),
-                    str(driver_id_due_date).lower(),
-                    str(license_plate).lower()
-                ]
-                if not any(search_text in field for field in search_fields):
+            for fine in fines:
+                fine_number = fine['fine_number']
+                notification_date = fine['notification_date'] if fine['notification_date'] else ""
+                driver_id_due_date = fine['driver_id_due_date'] if fine['driver_id_due_date'] else ""
+                amount = format_currency(fine['amount'])
+                license_plate = fine['license_plate'] if fine['license_plate'] else ""
+                payment_status = "Created" if fine['payment_event_created'] else "Pending"
+                driver_id_status = "Created" if fine['driver_id_event_created'] else "Pending"
+                
+                # Apply filter
+                if filter_value == "Pending Payment" and fine['payment_event_created']:
                     continue
-            
-            self.tree.insert("", tk.END, values=(
-                fine_number, notification_date, driver_id_due_date, amount, 
-                license_plate, payment_status, driver_id_status
-            ))
+                elif filter_value == "Pending Driver ID" and fine['driver_id_event_created']:
+                    continue
+                elif filter_value == "Complete" and (not fine['payment_event_created'] or not fine['driver_id_event_created']):
+                    continue
+                
+                # Apply search
+                if search_text:
+                    search_fields = [
+                        str(fine_number).lower(),
+                        str(notification_date).lower(),
+                        str(driver_id_due_date).lower(),
+                        str(license_plate).lower()
+                    ]
+                    if not any(search_text in field for field in search_fields):
+                        continue
+                
+                self.tree.insert("", tk.END, values=(
+                    fine_number, notification_date, driver_id_due_date, amount, 
+                    license_plate, payment_status, driver_id_status
+                ))
+                
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to refresh fines list: {str(e)}")
+            # Update calendar label to show error state
+            self.calendar_label.config(text="Current Calendar: Error loading calendar")
     
     def view_fine_details(self):
         """Show details of selected fine in a popup window"""
