@@ -3,6 +3,9 @@
 import tkinter as tk
 from tkinter import ttk
 import datetime
+import os
+import subprocess
+import sys
 from trafficfines.db.models import FineModel
 from trafficfines.utils.helpers import format_currency, format_date, format_datetime
 
@@ -155,9 +158,38 @@ class FinesTab(ttk.Frame):
                     elif isinstance(value, (datetime.date, datetime.datetime)):
                         # Format date/datetime fields using locale config
                         value = format_date(value) if isinstance(value, datetime.date) else format_datetime(value)
+                    
+                    # Make PDF path clickable
+                    if field == 'pdf_path' and value and value != "N/A":
+                        pdf_path = str(value)
+                        # Create clickable label
+                        pdf_label = tk.Label(
+                            details_frame, 
+                            text=pdf_path, 
+                            fg="blue", 
+                            cursor="hand2",
+                            font=("TkDefaultFont", 9, "underline")
+                        )
+                        pdf_label.grid(row=row, column=1, sticky=tk.W, padx=5, pady=2)
                         
-                    ttk.Label(details_frame, text=str(value)).grid(
-                        row=row, column=1, sticky=tk.W, padx=5, pady=2)
+                        # Bind click event to open file
+                        def open_pdf(path=pdf_path):
+                            try:
+                                if os.path.exists(path):
+                                    # Use os.startfile on Windows, subprocess on other platforms
+                                    if os.name == 'nt':  # Windows
+                                        os.startfile(path)
+                                    else:  # macOS and Linux
+                                        subprocess.run(['open' if sys.platform == 'darwin' else 'xdg-open', path])
+                                else:
+                                    tk.messagebox.showerror("Error", f"File not found:\n{path}")
+                            except Exception as e:
+                                tk.messagebox.showerror("Error", f"Could not open file:\n{str(e)}")
+                        
+                        pdf_label.bind("<Button-1>", lambda e, path=pdf_path: open_pdf(path))
+                    else:
+                        ttk.Label(details_frame, text=str(value)).grid(
+                            row=row, column=1, sticky=tk.W, padx=5, pady=2)
                     
                     row += 1
             

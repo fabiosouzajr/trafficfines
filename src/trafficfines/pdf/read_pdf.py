@@ -33,6 +33,8 @@ def read_pdf(file_path):
             "DATA LIMITE PARA IDENTIFICAÇÃO DO CONDUTOR INFRATOR",
             "PLACA",
             "MARCA/MODELO/VERSÃO",
+            "NOME",
+            "CNH",	
             "LOCAL DA INFRAÇÃO",
             "DATA",
             "HORA",
