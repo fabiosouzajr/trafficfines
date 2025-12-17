@@ -279,3 +279,66 @@ AttributeError: 'CalendarTab' object has no attribute 'create_events_btn'
 2025-05-20 10:52:29,068 [INFO] Application started
 2025-05-20 10:53:15,579 [INFO] Application closed
 >>>>>>> f903c6b8d85e4f1008cd3c5254cbe44a37bffb7c
+2025-12-17 11:08:07 [INFO] trafficfines: Application started
+2025-12-17 11:08:07 [CRITICAL] trafficfines: Critical error during application execution: No module named 'gcal_integration'
+Traceback (most recent call last):
+  File "c:\Users\Fabiojr\python\trafficfines\src\trafficfines\main.py", line 15, in main
+    app = TrafficFineApp(root)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Fabiojr\python\trafficfines\src\trafficfines\gui\app.py", line 16, in __init__
+    from gcal_integration.integration import CalendarIntegration
+ModuleNotFoundError: No module named 'gcal_integration'
+2025-12-17 11:08:28 [INFO] trafficfines: Application started
+2025-12-17 11:08:28 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
+2025-12-17 11:08:28 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
+2025-12-17 11:08:28 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
+2025-12-17 11:08:28 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
+2025-12-17 11:08:28 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\python\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 11:08:28 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\python\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 11:08:28 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 11:08:28 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 11:08:28 [CRITICAL] trafficfines: Critical error during application execution: FinesTab.__init__() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "c:\Users\Fabiojr\python\trafficfines\src\trafficfines\main.py", line 15, in main
+    app = TrafficFineApp(root)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Fabiojr\python\trafficfines\src\trafficfines\gui\app.py", line 23, in __init__
+    self.create_ui()
+  File "c:\Users\Fabiojr\python\trafficfines\src\trafficfines\gui\app.py", line 39, in create_ui
+    self.fines_tab = FinesTab(self.tab_control, self.calendar_integration)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: FinesTab.__init__() takes 2 positional arguments but 3 were given
+2025-12-17 11:09:41 [INFO] trafficfines: Application started
+2025-12-17 11:09:41 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
+2025-12-17 11:09:41 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
+2025-12-17 11:09:41 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
+2025-12-17 11:09:41 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
+2025-12-17 11:09:41 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\python\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 11:09:41 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\python\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 11:09:41 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 11:09:41 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 11:09:41 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
+2025-12-17 11:09:41 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
+2025-12-17 11:09:41 [CRITICAL] trafficfines: Critical error during application execution: CalendarTab.__init__() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "c:\Users\Fabiojr\python\trafficfines\src\trafficfines\main.py", line 15, in main
+    app = TrafficFineApp(root)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Fabiojr\python\trafficfines\src\trafficfines\gui\app.py", line 23, in __init__
+    self.create_ui()
+  File "c:\Users\Fabiojr\python\trafficfines\src\trafficfines\gui\app.py", line 40, in create_ui
+    self.calendar_tab = CalendarTab(self.tab_control, self.calendar_integration)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: CalendarTab.__init__() takes 2 positional arguments but 3 were given
+2025-12-17 11:10:25 [INFO] trafficfines: Application started
+2025-12-17 11:10:25 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
+2025-12-17 11:10:25 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
+2025-12-17 11:10:25 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
+2025-12-17 11:10:25 [INFO] trafficfines.gcal_integration.integration: Successfully set up Google Calendar API
+2025-12-17 11:10:26 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\python\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 11:10:26 [INFO] trafficfines.pdf.field_config: Loaded field mappings from c:\Users\Fabiojr\python\trafficfines\src\trafficfines\pdf\field_mappings.json
+2025-12-17 11:10:26 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 11:10:26 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-17 11:10:26 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
+2025-12-17 11:10:26 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
+2025-12-17 11:10:33 [INFO] trafficfines: Application closed

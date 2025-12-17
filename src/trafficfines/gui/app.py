@@ -13,7 +13,7 @@ class TrafficFineApp:
         self.root.minsize(700, 500)
         
         # Create shared calendar integration instance
-        from gcal_integration.integration import CalendarIntegration
+        from trafficfines.gcal_integration.integration import CalendarIntegration
         self.calendar_integration = CalendarIntegration()
         
         # Ensure the window is properly configured

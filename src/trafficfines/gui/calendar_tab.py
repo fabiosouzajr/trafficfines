@@ -8,9 +8,9 @@ logger = get_logger(__name__)
 
 
 class CalendarTab(ttk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, calendar_integration=None):
         super().__init__(parent, padding="10")
-        self.calendar_integration = CalendarIntegration()
+        self.calendar_integration = calendar_integration or CalendarIntegration()
         self.on_events_created = None  # Callback to notify when events are created
         self.create_widgets()
     
