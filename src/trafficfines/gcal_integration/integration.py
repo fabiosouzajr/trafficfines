@@ -7,7 +7,8 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from googleapiclient.errors import HttpError
-from trafficfines.config import SCOPES, CREDENTIALS_FILE, TOKEN_FILE
+from trafficfines.config import SCOPES, CREDENTIALS_FILE, TOKEN_FILE, LOCALE
+from trafficfines.utils.helpers import format_currency
 from trafficfines.db.models import FineModel
 from trafficfines.utils.logger import get_logger
 from trafficfines.utils.error_messages import ErrorMessageMapper
@@ -115,14 +116,14 @@ class CalendarIntegration:
             logger.debug(f"Creating payment event for fine {fine_number} (ID: {fine_id})")
             event = {
                 'summary': f'Traffic Fine Payment Due: {fine_number}',
-                'description': f'Pay traffic fine #{fine_number} - Amount: ${amount}',
+                'description': f'Pay traffic fine #{fine_number} - Amount: {format_currency(amount)}',
                 'start': {
                     'date': due_date.isoformat(),
-                    'timeZone': 'America/Los_Angeles',
+                    'timeZone': LOCALE['timezone'],
                 },
                 'end': {
                     'date': due_date.isoformat(),
-                    'timeZone': 'America/Los_Angeles',
+                    'timeZone': LOCALE['timezone'],
                 },
                 'reminders': {
                     'useDefault': False,
@@ -185,11 +186,11 @@ class CalendarIntegration:
                 'description': f'Submit driver identification for fine #{fine_number}',
                 'start': {
                     'date': driver_id_due_date.isoformat(),
-                    'timeZone': 'America/Los_Angeles',
+                    'timeZone': LOCALE['timezone'],
                 },
                 'end': {
                     'date': driver_id_due_date.isoformat(),
-                    'timeZone': 'America/Los_Angeles',
+                    'timeZone': LOCALE['timezone'],
                 },
                 'reminders': {
                     'useDefault': False,

@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox
 from trafficfines.gcal_integration.integration import CalendarIntegration
 from trafficfines.utils.logger import get_logger
 from trafficfines.utils.error_messages import ErrorMessageMapper
+from trafficfines.utils.helpers import format_datetime
 
 logger = get_logger(__name__)
 
@@ -129,7 +130,7 @@ class CalendarTab(ttk.Frame):
             
             # Update last sync time
             from datetime import datetime
-            self.last_sync_var.set(f"Last sync: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+            self.last_sync_var.set(f"Last sync: {format_datetime(datetime.now())}")
             
             # Show summary message
             total_created = results['payment_events']['created'] + results['driver_id_events']['created']

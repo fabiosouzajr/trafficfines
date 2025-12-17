@@ -1,0 +1,19 @@
+{
+  "database_path": "traffic_fines.db",
+  "credentials_file": "credentials.json",
+  "token_file": "token.pickle",
+  "default_pdf_folder": "~/Documents/multas",
+  "log_file": "app.log",
+  "locale": {
+    "language": "pt_BR",
+    "currency": "BRL",
+    "currency_symbol": "R$",
+    "timezone": "America/Sao_Paulo",
+    "date_format": "%d/%m/%Y",
+    "datetime_format": "%d/%m/%Y %H:%M:%S"
+  },
+  "scopes": [
+    "https://www.googleapis.com/auth/calendar"
+  ]
+}
+

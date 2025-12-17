@@ -5,7 +5,8 @@ import os
 
 from trafficfines.config import DEFAULT_PDF_FOLDER
 from trafficfines.pdf.parser import PDFParser
-from trafficfines.utils.helpers import format_currency
+from trafficfines.utils.helpers import format_currency, format_date, format_datetime
+import datetime
 from trafficfines.utils.logger import get_logger
 from trafficfines.utils.error_messages import ErrorMessageMapper
 
@@ -268,6 +269,10 @@ class ImportTab(ttk.Frame):
                 value = fine_data.get(field_key, "")
                 if field_key == "amount" and value:
                     value = format_currency(value)
+                elif isinstance(value, datetime.date):
+                    value = format_date(value)
+                elif isinstance(value, datetime.datetime):
+                    value = format_datetime(value)
                 
                 value_label = ttk.Label(frame, text=str(value) if value else "Não disponível", wraplength=300)
                 value_label.grid(row=row, column=1, sticky=tk.W, padx=5, pady=5)

@@ -2,8 +2,9 @@
 
 import tkinter as tk
 from tkinter import ttk
+import datetime
 from trafficfines.db.models import FineModel
-from trafficfines.utils.helpers import format_currency
+from trafficfines.utils.helpers import format_currency, format_date, format_datetime
 
 class FinesTab(ttk.Frame):
     def __init__(self, parent, calendar_integration=None):
@@ -89,8 +90,8 @@ class FinesTab(ttk.Frame):
         
         for fine in fines:
             fine_number = fine['fine_number']
-            notification_date = fine['notification_date'] if fine['notification_date'] else ""
-            driver_id_due_date = fine['driver_id_due_date'] if fine['driver_id_due_date'] else ""
+            notification_date = format_date(fine['notification_date']) if fine['notification_date'] else ""
+            driver_id_due_date = format_date(fine['driver_id_due_date']) if fine['driver_id_due_date'] else ""
             amount = format_currency(fine['amount'])
             license_plate = fine['license_plate'] if fine['license_plate'] else ""
             payment_status = "Created" if fine['payment_event_created'] else "Pending"
@@ -151,6 +152,9 @@ class FinesTab(ttk.Frame):
                         value = "N/A"
                     elif field.endswith('_created'):
                         value = "Yes" if value else "No"
+                    elif isinstance(value, (datetime.date, datetime.datetime)):
+                        # Format date/datetime fields using locale config
+                        value = format_date(value) if isinstance(value, datetime.date) else format_datetime(value)
                         
                     ttk.Label(details_frame, text=str(value)).grid(
                         row=row, column=1, sticky=tk.W, padx=5, pady=2)
