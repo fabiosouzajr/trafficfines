@@ -479,3 +479,31 @@ AttributeError: 'CalendarTab' object has no attribute 'user_email_label'
 2025-12-17 12:23:57 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
 2025-12-17 12:23:57 [INFO] trafficfines.db.database: Successfully connected to database: c:\Users\Fabiojr\python\trafficfines\traffic_fines.db
 2025-12-17 12:24:16 [INFO] trafficfines: Application closed
+2025-12-18 12:28:12 [INFO] trafficfines: Application started
+2025-12-18 12:28:12 [WARNING] trafficfines.config: Configuration warning: Google Calendar credentials file '/home/fabio/git/trafficfines/credentials.json' not found. Calendar features will be unavailable.
+2025-12-18 12:28:12 [WARNING] trafficfines.config: Configuration warning: Google Calendar credentials file '/home/fabio/git/trafficfines/credentials.json' not found. Calendar features will be unavailable.
+2025-12-18 12:28:12 [INFO] trafficfines: Configuration validation passed
+2025-12-18 12:28:12 [INFO] trafficfines.db.database: Successfully connected to database: /home/fabio/git/trafficfines/traffic_fines.db
+2025-12-18 12:28:12 [INFO] trafficfines.db.database: Successfully connected to database: /home/fabio/git/trafficfines/traffic_fines.db
+2025-12-18 12:28:12 [INFO] trafficfines.gcal_integration.integration: Starting OAuth flow for new credentials
+2025-12-18 12:28:12 [INFO] trafficfines.gcal_integration.integration: Starting OAuth flow for new credentials
+2025-12-18 12:28:12 [ERROR] trafficfines.gcal_integration.integration: FileNotFoundError: Credentials file not found: /home/fabio/git/trafficfines/credentials.json | Context: file=/home/fabio/git/trafficfines/credentials.json
+Traceback (most recent call last):
+  File "/home/fabio/git/trafficfines/src/trafficfines/gcal_integration/integration.py", line 65, in setup_google_calendar
+    raise FileNotFoundError(f"Credentials file not found: {CREDENTIALS_FILE}")
+FileNotFoundError: Credentials file not found: /home/fabio/git/trafficfines/credentials.json
+2025-12-18 12:28:12 [ERROR] trafficfines.gcal_integration.integration: FileNotFoundError: Credentials file not found: /home/fabio/git/trafficfines/credentials.json | Context: file=/home/fabio/git/trafficfines/credentials.json
+Traceback (most recent call last):
+  File "/home/fabio/git/trafficfines/src/trafficfines/gcal_integration/integration.py", line 65, in setup_google_calendar
+    raise FileNotFoundError(f"Credentials file not found: {CREDENTIALS_FILE}")
+FileNotFoundError: Credentials file not found: /home/fabio/git/trafficfines/credentials.json
+2025-12-18 12:28:12 [WARNING] trafficfines.gcal_integration.integration: Could not initialize Google Calendar service: Credentials file not found: /home/fabio/git/trafficfines/credentials.json
+2025-12-18 12:28:12 [WARNING] trafficfines.gcal_integration.integration: Could not initialize Google Calendar service: Credentials file not found: /home/fabio/git/trafficfines/credentials.json
+2025-12-18 12:28:12 [INFO] trafficfines.gcal_integration.integration: Calendar features will be disabled. You can re-authenticate later.
+2025-12-18 12:28:12 [INFO] trafficfines.gcal_integration.integration: Calendar features will be disabled. You can re-authenticate later.
+2025-12-18 12:28:12 [INFO] trafficfines.pdf.field_config: Loaded field mappings from /home/fabio/git/trafficfines/src/trafficfines/pdf/field_mappings.json
+2025-12-18 12:28:12 [INFO] trafficfines.pdf.field_config: Loaded field mappings from /home/fabio/git/trafficfines/src/trafficfines/pdf/field_mappings.json
+2025-12-18 12:28:12 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-18 12:28:12 [INFO] trafficfines.pdf.field_config: Set jurisdiction to: brazil
+2025-12-18 12:28:13 [INFO] trafficfines.db.database: Successfully connected to database: /home/fabio/git/trafficfines/traffic_fines.db
+2025-12-18 12:28:13 [INFO] trafficfines.db.database: Successfully connected to database: /home/fabio/git/trafficfines/traffic_fines.db
